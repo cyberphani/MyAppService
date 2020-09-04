@@ -1,6 +1,7 @@
 package com.phani.main.model;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
 
 @Entity(name = "Department")
@@ -65,6 +66,9 @@ public class Department {
     }
 
     public void setEmployeeList(List<Employee> employeeList) {
+        if(null == employeeList) {
+            employeeList = Collections.emptyList();
+        }
         this.employeeList = employeeList;
     }
 }

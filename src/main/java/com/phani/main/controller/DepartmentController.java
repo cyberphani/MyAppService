@@ -1,6 +1,7 @@
 package com.phani.main.controller;
 
 import com.phani.main.dto.DepartmentDto;
+import com.phani.main.mapper.DepartmentMapper;
 import com.phani.main.model.Department;
 import com.phani.main.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
+    @Autowired
+    private DepartmentMapper departmentMapper;
+
     @PostMapping(value = "/department", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Department> addEmployee(@RequestBody DepartmentDto departmentDto) {
         return new ResponseEntity<>(departmentService.saveDepartment(departmentDto), HttpStatus.OK);
@@ -28,8 +32,9 @@ public class DepartmentController {
     }
 
     @GetMapping(value = "/department/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Department>> getEmployee() {
-        return new ResponseEntity<>(departmentService.getDepartmentList(), HttpStatus.OK);
+    public ResponseEntity<List<DepartmentDto>> getEmployee() {
+        List<DepartmentDto> departmentDtos = departmentMapper.mapToDTOs(departmentService.getDepartmentList());
+        return new ResponseEntity<>(departmentDtos, HttpStatus.OK);
     }
 
 }
